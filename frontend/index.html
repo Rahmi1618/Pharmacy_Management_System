@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PharmaCare Pro - AI Pharmacy Management & Locator System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Inter Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 h-full flex flex-col">
+    <!-- App Container -->
+    <div id="app" class="flex flex-col flex-1 min-h-screen">
+      <!-- Navigation Bar -->
+      <header
+        id="navbar"
+        class="bg-white border-b border-slate-200 sticky top-0 z-50"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div
+              class="flex items-center space-x-3 cursor-pointer"
+              onclick="router.navigate('home')"
+            >
+              <div
+                class="bg-emerald-600 p-2 rounded-xl text-white shadow-md shadow-emerald-200"
+              >
+                <i class="fa-solid fa-staff-snake text-xl"></i>
+              </div>
+              <div>
+                <span
+                  class="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent"
+                  >PharmaCare Pro</span
+                >
+                <span class="hidden sm:block text-xs text-slate-400 font-medium"
+                  >AI-Powered Pharmacy & Delivery System</span
+                >
+              </div>
+            </div>
+
+            <!-- Desktop Navigation Links (Dynamically populated based on Auth state) -->
+            <div
+              id="desktop-nav-links"
+              class="hidden md:flex items-center space-x-6"
+            ></div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex md:hidden items-center">
+              <button
+                onclick="toggleMobileMenu()"
+                class="text-slate-600 hover:text-slate-900 p-2 focus:outline-none"
+              >
+                <i class="fa-solid fa-bars text-xl"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div
+          id="mobile-menu"
+          class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2"
+        ></div>
+      </header>
+
+      <!-- Main Dynamic View Container -->
+      <main id="main-content" class="flex-1 flex flex-col"></main>
+
+      <!-- Footer -->
+      <footer
+        class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800"
+      >
+        <div
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          <div>
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="bg-emerald-600 p-1.5 rounded-lg text-white">
+                <i class="fa-solid fa-staff-snake text-lg"></i>
+              </div>
+              <span class="text-lg font-bold text-white">PharmaCare Pro</span>
+            </div>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              Your trusted AI-enabled partner in health and prescription
+              management. Register to unlock AI pharmacy recommendations,
+              prescription refills, and live support.
+            </p>
+          </div>
+          <div>
+            <h4
+              class="text-white font-semibold mb-3 text-sm uppercase tracking-wider"
+            >
+              Quick Links
+            </h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a
+                  href="#"
+                  onclick="router.navigate('home')"
+                  class="hover:text-emerald-400 transition"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="router.navigate('about')"
+                  class="hover:text-emerald-400 transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="router.navigate('register')"
+                  class="hover:text-emerald-400 transition"
+                  >Customer Registration</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="router.navigate('login')"
+                  class="hover:text-emerald-400 transition"
+                  >Member Sign In</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="text-white font-semibold mb-3 text-sm uppercase tracking-wider"
+            >
+              Support & Emergency
+            </h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <span class="text-emerald-400 font-medium"
+                  >Customer Support:</span
+                >
+                +251 902327220
+              </li>
+              <li>
+                <span class="text-emerald-400 font-medium">Email:</span>
+                rahmimuhe6@gmail.com
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500"
+        >
+          &copy; 2026 PharmaCare Pro. All rights reserved. Built for secure
+          patient care and intelligent pharmacy management.
+        </div>
+      </footer>
+    </div>
+
+    <!-- Floating AI Assistant Widget (Visible ONLY after customer registers & logs in) -->
+    <div id="floating-ai-widget" class="hidden fixed bottom-6 right-6 z-40">
+      <!-- Chat Window -->
+      <div
+        id="ai-chat-window"
+        class="hidden mb-3 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col"
+      >
+        <div
+          class="bg-gradient-to-r from-emerald-700 to-teal-800 p-4 text-white flex justify-between items-center"
+        >
+          <div class="flex items-center space-x-2.5">
+            <div class="bg-white/20 p-2 rounded-xl">
+              <i class="fa-solid fa-robot text-base"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm">PharmaCare AI Assistant</h4>
+              <span class="text-[10px] text-emerald-200 flex items-center"
+                ><span
+                  class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"
+                ></span>
+                Online • Smart Health Helper</span
+              >
+            </div>
+          </div>
+          <button
+            onclick="toggleAIChatWidget()"
+            class="text-white/80 hover:text-white"
+          >
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+        <div
+          id="floating-chat-messages"
+          class="p-4 h-72 overflow-y-auto space-y-3 bg-slate-50 text-xs"
+        >
+          <div
+            class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-none shadow-sm text-slate-700"
+          >
+            👋 Hi! I'm your <strong>PharmaCare AI Assistant</strong>. Ask me
+            about symptoms, medicine availability, dosage guidance, or finding
+            the nearest pharmacy!
+          </div>
+        </div>
+        <form
+          onsubmit="sendFloatingAIMessage(event)"
+          class="p-3 bg-white border-t border-slate-100 flex space-x-2"
+        >
+          <input
+            type="text"
+            id="floating-ai-input"
+            required
+            placeholder="Ask AI about medicines or symptoms..."
+            class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-emerald-600 bg-slate-50"
+          />
+          <button
+            type="submit"
+            class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition"
+          >
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Toggle Button -->
+      <button
+        onclick="toggleAIChatWidget()"
+        class="ml-auto bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white px-4 py-3.5 rounded-full shadow-xl flex items-center space-x-2.5 font-bold text-xs transition transform hover:scale-105"
+      >
+        <i class="fa-solid fa-robot text-base"></i>
+        <span>AI Assistant</span>
+      </button>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div
+      id="toast-container"
+      class="fixed bottom-5 left-5 z-50 flex flex-col space-y-2 pointer-events-none"
+    ></div>
+
+    <!-- Application JavaScript Engine -->
+    <script src="app.js"></script>
+  </body>
+</html>
